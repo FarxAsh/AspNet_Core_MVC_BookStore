@@ -31,10 +31,12 @@ namespace WebApplication6.Controllers
             Genre? genre,      
             int? catalogPage)
         {
-            
+            var authors = from b in _context.Author.Include(b => b.Book)
+                          select b;
+
             var filterArgs = new AuthorsFilterArgs(searchString, sortOrder, genre);
 
-            var filteredAuthors = await AuthorsFilter.GetFilteredAuthors(_context, filterArgs, catalogPage);
+            var filteredAuthors = await AuthorsFilter.GetFilteredAuthors(authors, filterArgs, catalogPage);
 
             return View(filteredAuthors);
         }

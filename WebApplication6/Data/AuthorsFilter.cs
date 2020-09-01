@@ -11,96 +11,57 @@ namespace WebApplication6.Data
     {
         public static string CurrentSortOrder { get; set; }
         public static Genre? CurrentGenre { get; set; }
-        public static async Task<PaginationList<Author>> GetFilteredAuthors(BookStoreContext context, AuthorsFilterArgs filterArgs, int? catalogPage)
+        public static async Task<PaginationList<Author>> GetFilteredAuthors(IQueryable<Author> authors, AuthorsFilterArgs filterArgs, int? catalogPage)
         {
-            var authors = from b in context.Author.Include(b => b.Book)
-                          select b;
-
+           
             CurrentSortOrder = !string.IsNullOrEmpty(filterArgs.SortOrder)? "desc" : "asc";
-            CurrentGenre = filterArgs.Genre;
 
-            if (!string.IsNullOrEmpty(filterArgs.SearchString))
-            {
-                catalogPage = 1;
-                CurrentSortOrder = null;
-                CurrentGenre = null;
-                authors = authors.Where(s => s.LastName.Contains(filterArgs.SearchString));
-                return await PaginationList<Author>.CreateAsync(authors.AsNoTracking(), catalogPage ?? 1, pageSize: 3);
-            }
-
-            if (!string.IsNullOrEmpty(filterArgs.Genre.ToString()))
-                catalogPage = 1;
-            else
-                filterArgs.Genre = CurrentGenre;
+            authors = GetFilteredAuthorsByGenre(authors, filterArgs.Genre);               
+            
+            authors = GetFilteredAuthorsBySearchString(authors, filterArgs.SearchString, ref catalogPage);
 
             authors = SelectSortOrder(authors, filterArgs.SortOrder);
-            authors = SwitchAuthorGenre(authors, filterArgs.Genre);
 
+            SetCurrentAuthorFilters(filterArgs);
+           
             return await PaginationList<Author>.CreateAsync(authors.AsNoTracking(), catalogPage ?? 1, pageSize: 3);
-        }
-
-        
-        public static IQueryable<Author> SwitchAuthorGenre(IQueryable<Author> authors, Genre? genre)
-        {
-            if (!string.IsNullOrEmpty(genre.ToString()))
-            {
-                switch (genre)
-                {
-                    case Genre.Fiction:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                    case Genre.Fantasy:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                    case Genre.Buisness:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                    case Genre.History:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                    case Genre.Horror:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                    case Genre.Science:
-
-                        authors = authors.Where(b => b.Genre == genre);
-
-                        break;
-                }
-            }
-
-            return authors;
-
-        }
+        }            
         public static IQueryable<Author> SelectSortOrder(IQueryable<Author> authors, string sortOrder)
         {
-            if (!string.IsNullOrEmpty(sortOrder))
-            {
                 switch (sortOrder)
                 {
                     case "desc":
                         authors = authors.OrderByDescending(a => a.LastName);
-                        CurrentSortOrder = null;
+                        CurrentSortOrder = string.Empty;
                         break;
 
                     case "asc":
                         authors = authors.OrderBy(a => a.LastName);
                         break;
                 }
-            }
-            
-           return authors;
+            return authors;
+        }
+        public static IQueryable<Author> GetFilteredAuthorsByGenre(IQueryable<Author> authors, Genre? genre)
+        {
+            if (genre.HasValue)
+                authors = authors.Where(b => b.Genre == genre);
 
+            return authors;
+        }   
+        public static IQueryable<Author> GetFilteredAuthorsBySearchString(IQueryable<Author> authors, string searchString, ref int? catalogPage)
+        {
+            if (searchString != null)
+            {
+                catalogPage = 1;
+                CurrentGenre = null;
+                authors = authors.Where(s => s.LastName.Contains(searchString));
+            }
+
+            return authors;
+        }   
+        public static void SetCurrentAuthorFilters(AuthorsFilterArgs filterArgs)
+        {
+            CurrentGenre = filterArgs.Genre;           
         }
     }
 }

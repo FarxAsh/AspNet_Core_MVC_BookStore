@@ -30,10 +30,12 @@ namespace WebApplication6.Controllers
                                                      Genre? genre, BookCondition? bookCondition, 
                                                      int? catalogPage)
         {
+            var books = from b in _context.Book.Include(b => b.Author)
+                        select b;
 
             var filterArgs = new BooksFilterArgs(searchString, author, genre, bookCondition);
-            
-            var filteredBooks = await BooksFilter.GetFilteredBooks(_context, filterArgs, catalogPage);
+                    
+            var filteredBooks = await BooksFilter.GetFilteredBooks(books, filterArgs, catalogPage);
 
             var authors = await _context.Author.AsNoTracking().ToListAsync();
 
