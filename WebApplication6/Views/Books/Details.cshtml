@@ -1,0 +1,102 @@
+﻿@model WebApplication6.Models.Book
+    <script>
+       function AddItem(id) {
+                $.ajax({
+                    url: '@Url.Action("AddBasketItem", "Basket")',
+                    type: 'GET',
+                    data: { 'id': id},
+
+                });
+            }
+    </script>
+
+    <div class="container pt-4 mt-5">     
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                <img src="@Model.Image" width="300" height="290"/>
+                </div>
+
+                <div class="mt-3">
+
+                    <dl>
+                        <dt>
+                            Title:
+                        </dt>
+                        <dd>
+                            @Model.Title
+                        </dd>
+                        <dt>
+                            Author:
+                        </dt>
+                        <dd>
+                            @Model.Author.LastName @Model.Author.FirstName
+                        </dd>
+                        <dt>
+                            Year:
+                        </dt>
+                        <dd>
+                            @Model.Year
+                        </dd>
+                        <dt>
+                            Number of pages:
+                        </dt>
+                        <dd>
+                            @Model.Pages
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-md-7 mt-4 ml-0">
+                <article>
+                    <h3 class="text-center">Description</h3>
+                    <p class="font-italic">@Model.Description</p>
+                </article>
+                <button type="button" class="btn btn-lg btn-outline-info" data-toggle="collapse" data-target="#demo">Feedbacks</button>
+     
+                <div id="demo" class="collapse">
+                    @if (Model.Comment.Any())
+                    {
+                        @foreach (var item in Model.Comment)
+                        {
+                            <div class="media border p-3">
+                                <img src="https://community.adobe.com/t5/image/serverpage/avatar-name/frankenstein/avatar-theme/candy/avatar-collection/monsters/avatar-display-size/profile/version/2?xdesc=1.0" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:100px;">
+                                <div class="media-body">
+                                    <h3>@item.UserName <small><i>Posted on @item.Date.ToShortDateString()</i></small></h3>
+                                    <p>@item.Feedback</p>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    @if (User.IsInRole("user"))
+                    {
+                        <form asp-action="addFeedback">
+                            <input type="hidden" name="id" value="@Model.ID" />
+                            <div class="form-group">
+                                <textarea class="form-control mt-3" rows="5" placeholder="Write your feedback here" name="feedback"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Add feedback" class="btn btn-outline-dark float-right" />
+                            </div>
+                        </form>
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                @if (User.IsInRole("user"))
+                {
+                    <input type="button" class="btn btn-lg btn-outline-primary" onclick="AddItem(@Model.ID)" value="Add to cart" />
+                }
+
+            </div>
+        </div>
+       </div>
+
+        
+      

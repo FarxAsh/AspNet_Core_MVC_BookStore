@@ -1,0 +1,52 @@
+﻿@model WebApplication6.Models.Book
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<div class="container-fluid mt-5 pt-5 ">
+<h1>Remove book from library</h1> <hr/>
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            Author's Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            Authors's Last Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" asp-controller="Books">
+        <input type="hidden" asp-for="ID" />
+        <a asp-action="GetAllBooks" class="btn  btn-outline-info">Back to List</a> |
+        <input type="submit" value="Delete" class="btn  btn-outline-info" />
+
+    </form>
+</div>
+</div>
+

@@ -1,0 +1,36 @@
+﻿@model WebApplication6.ViewModels.LoginViewModel
+    <div class="container pt-5 mt-5">
+
+
+        
+        <h1>Wellcome customer</h1>
+        <h5 class="text-black-50">Please sign in. It won't take much time</h5>
+
+        <div class="dropdown-divider"></div>
+        <form method="post" asp-controller="Account" asp-action="Login" autocomplete="off">
+
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" type="password" class="form-control h-100" />
+                <span asp-validation-for="Password"></span>
+
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input class="custom-control-input" asp-for="RememberMe" type="checkbox">
+                <label class="custom-control-label" asp-for="RememberMe">Remember me</label>
+            </div>
+
+            <div class="shadow-lg form-group mb-0">
+                <input type="submit" class="btn btn-dark  btn-lg btn-block" value="Sign in" />
+            </div>
+        </form>
+    </div>
+

@@ -1,0 +1,61 @@
+﻿@model List<WebApplication6.Models.Order>
+
+
+
+<div class="container-fluid mt-5 pt-2">
+  
+    <table class="table mt-3">
+        <thead class="thead-dark">
+            <tr>
+
+                <th class="text-center">Adress</th>
+                <th class="text-center">Contact phone</th>
+                <th class="text-center">Payment type</th>
+                <th class="text-center">Total price</th>
+                <th class="text-center">Delivery date</th>
+                <th class="text-center">Delivery status</th>
+                <th class="text-center">Details</th>
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+
+                <td class="text-center align-middle">@item.Adress</td>
+                <td class="text-center align-middle">@item.ContactPhone</td>
+                <td class="text-center align-middle">@item.PaymentType</td>
+                <td class="text-center align-middle">@item.TotalPrice.ToString("c")</td>
+                <td class="text-center align-middle">@item.Date.ToShortDateString()</td>
+                @if (DateTime.Today < item.Date)
+                {
+                    <td class="text-center text-info align-middle">In transit</td>
+                   
+                }
+                else
+                {
+                    
+                    <td class="text-center text-success align-middle">Delivered</td>
+                }
+            <td class="text-center align-middle">
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+            </td>
+
+
+
+
+            </tr>
+               
+            }
+
+
+        </tbody>
+
+    </table>
+
+
+</div>

@@ -1,0 +1,62 @@
+﻿@model WebApplication6.Data.ViewModels.CreateBookViewModel
+<div class="container-fluid mt-5 pt-5">
+<h4>Create a new book</h4>
+<hr />
+<div class="row ml-0">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Book.Title" class="control-label"></label>
+                <input asp-for="Book.Title" class="form-control" />
+                <span asp-validation-for="Book.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Year" class="control-label"></label>
+                <input asp-for="Book.Year" class="form-control" />
+                <span asp-validation-for="Book.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Pages" class="control-label"></label>
+                <input asp-for="Book.Pages" class="form-control" />
+                <span asp-validation-for="Book.Pages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Image" class="control-label"></label>
+                <input asp-for="Book.Image" class="form-control" />
+                <span asp-validation-for="Book.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="Book.Description" class="control-label"></label>
+                    <textarea class="form-control" rows="5" asp-for="Book.Description"></textarea>
+                </div>
+                <span asp-validation-for="Book.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Genre" class="control-label"></label>
+                <select asp-for="Book.Genre" asp-items="@new SelectList(Enum.GetValues(typeof(Genre)))" class="btn  btn-outline-dark "></select>
+                <span asp-validation-for="Book.Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Price" class="control-label"></label>
+                <input asp-for="Book.Price" class="form-control" />
+                <span asp-validation-for="Book.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2 mb-3">
+                <select asp-for="Book.AuthorID"
+                        asp-items="@(new SelectList(Model.Author,"ID","LastName"))" class="custom-select">
+                    <option>Please select author</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a asp-action="GetAllBooks" class="btn  btn-outline-info">Back to List</a> |
+                <input type="submit" value="Create" class="btn btn-outline-info" />
+
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+

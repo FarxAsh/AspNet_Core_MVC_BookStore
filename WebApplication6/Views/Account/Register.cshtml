@@ -1,0 +1,31 @@
+﻿@model WebApplication6.ViewModels.RegistrationViewModel
+    <div class="container mt-5 pt-5">
+        <h1>Wellcome newcomer</h1>
+        <h5 class="text-black-50">Please sign up. It won't take much time</h5>
+
+        <div class="dropdown-divider"></div>
+        <form method="post" asp-controller="Account" asp-action="Register" autocomplete="off">
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PasswordConfirm"></label><br />
+                <input asp-for="PasswordConfirm" type="password" class="form-control" required="" />
+                <span asp-validation-for="PasswordConfirm"></span>
+            </div>
+            <div class="shadow-lg form-group mb-0">
+                <input type="submit" class="btn btn-dark btn-lg btn-block" value="Sign up" />
+            </div>
+        </form>
+    </div>
+
+
