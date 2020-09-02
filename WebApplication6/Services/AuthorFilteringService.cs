@@ -14,21 +14,19 @@ namespace WebApplication6.Services
         public async Task<PaginationList<Author>> GetFilteredAuthors(BookStoreContext context, AuthorFilterArgs filterArgs, int? catalogPage)
         {
 
-            var authors = context.Author.Include(author => author.Book).Select(author => author);
+            CurrentSortOrder = !string.IsNullOrEmpty(filterArgs.SortOrder) ? "desc" : "asc";
 
-            CurrentSortOrder = !string.IsNullOrEmpty(filterArgs.SortOrder)? "desc" : "asc";
+            var authors = context.Author.Include(author => author.Book).Select(author => author);           
 
             authors = GetFilteredAuthorsByGenre(authors, filterArgs.Genre);               
             
             authors = GetFilteredAuthorsBySearchString(authors, filterArgs.SearchString, ref catalogPage);
 
-            authors = SelectSortOrder(authors, filterArgs.SortOrder);
-
+            authors = SelectSortOrder(authors, filterArgs.SortOrder);       
          
-           
             return await PaginationList<Author>.CreateAsync(authors.AsNoTracking(), catalogPage ?? 1, pageSize: 3);
         }            
-        public  IQueryable<Author> SelectSortOrder(IQueryable<Author> authors, string sortOrder)
+        IQueryable<Author> SelectSortOrder(IQueryable<Author> authors, string sortOrder)
         {
                 switch (sortOrder)
                 {
@@ -43,14 +41,14 @@ namespace WebApplication6.Services
                 }
             return authors;
         }
-        public  IQueryable<Author> GetFilteredAuthorsByGenre(IQueryable<Author> authors, Genre? genre)
+        IQueryable<Author> GetFilteredAuthorsByGenre(IQueryable<Author> authors, Genre? genre)
         {
             if (genre.HasValue)
                 authors = authors.Where(author => author.Genre == genre);
 
             return authors;
         }   
-        public  IQueryable<Author> GetFilteredAuthorsBySearchString(IQueryable<Author> authors, string searchString, ref int? catalogPage)
+        IQueryable<Author> GetFilteredAuthorsBySearchString(IQueryable<Author> authors, string searchString, ref int? catalogPage)
         {
             if (searchString != null)
             {

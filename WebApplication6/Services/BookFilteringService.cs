@@ -10,12 +10,11 @@ using WebApplication6.Data;
 namespace WebApplication6.Services
 {   
     public class BookFilteringService
-    {                  
+    {      
         public async Task<PaginationList<Book>> GetFilteredBooks(BookStoreContext context, BookFilterArgs filterArgs, int? catalogPage) 
         {
 
-            var books = context.Book.Include(book => book.Author).Select(book => book);
-                      
+            var books = context.Book.Include(book => book.Author).Select(book => book);                  
 
             books = GetFilteredBooksBySearchString(books, filterArgs.SearchString, ref catalogPage);
          
@@ -28,7 +27,7 @@ namespace WebApplication6.Services
             return await PaginationList<Book>.CreateAsync(books.AsNoTracking(), catalogPage?? 1, pageSize: 3);
         }
 
-        public IQueryable<Book> SwitchBookCondition(IQueryable<Book> books, BookCondition? bookCondition)
+        IQueryable<Book> SwitchBookCondition(IQueryable<Book> books, BookCondition? bookCondition)
         {           
             if(bookCondition.HasValue)
             {
@@ -45,14 +44,14 @@ namespace WebApplication6.Services
            
             return books;
         }
-        public IQueryable<Book> GetFilteredBooksByGenre(IQueryable<Book> books, Genre? genre)
+        IQueryable<Book> GetFilteredBooksByGenre(IQueryable<Book> books, Genre? genre)
         {
             if(genre.HasValue)
                books = books.Where(book => book.Genre == genre);
 
             return books;
         }
-        public IQueryable<Book> GetFilteredBooksBySearchString(IQueryable<Book> books, string searchString, ref int? catalogPage)
+        IQueryable<Book> GetFilteredBooksBySearchString(IQueryable<Book> books, string searchString, ref int? catalogPage)
         {
             if (searchString != null)
             {
@@ -62,7 +61,7 @@ namespace WebApplication6.Services
 
             return books;
         }
-        public IQueryable<Book> GetFilteredBooksByAuthor(IQueryable<Book> books, string author)
+        IQueryable<Book> GetFilteredBooksByAuthor(IQueryable<Book> books, string author)
         {
             if (author != null)
                 books = books.Where(book => book.Author.LastName == author);
