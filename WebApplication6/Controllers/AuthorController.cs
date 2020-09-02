@@ -11,6 +11,8 @@ using WebApplication6.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplication6.Data;
+using WebApplication6.Data.ViewModels;
+using WebApplication6.Services;
 
 namespace WebApplication6.Controllers
 {
@@ -18,27 +20,20 @@ namespace WebApplication6.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly BookStoreContext _context;
-        public AuthorController(ILogger<HomeController> logger, BookStoreContext context)
+        private readonly AuthorFilteringService _authorFilteringService;
+        public AuthorController(ILogger<HomeController> logger, BookStoreContext context, AuthorFilteringService authorFilteringService)
         {
             _logger = logger;
             _context = context;
+            _authorFilteringService = authorFilteringService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAuthors(
-            string searchString, 
-            string sortOrder,
-            Genre? genre,      
-            int? catalogPage)
-        {
-            var authors = from b in _context.Author.Include(b => b.Book)
-                          select b;
+        public async Task<IActionResult> GetAuthors(AuthorFilterArgs filterArgs, int? catalogPage)
+        {       
+            var authors = await _authorFilteringService.GetFilteredAuthors(_context, filterArgs, catalogPage);
 
-            var filterArgs = new AuthorsFilterArgs(searchString, sortOrder, genre);
-
-            var filteredAuthors = await AuthorsFilter.GetFilteredAuthors(authors, filterArgs, catalogPage);
-
-            return View(filteredAuthors);
+            return View(new GetAuthorsViewModel() {Authors = authors, FilterArgs = filterArgs });
         }
 
         [Authorize(Roles = "admin")]

@@ -1,5 +1,6 @@
-﻿@using WebApplication6.Data
-@model PaginationList<Author>
+﻿@using WebApplication6.Data.ViewModels
+@using WebApplication6.Services
+@model GetAuthorsViewModel
 
 <div class="container mt-4 pt-1"> 
    <div class="container mt-5 pt-5 bg-light">
@@ -38,13 +39,13 @@
                     </button>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-route-sortOrder="@AuthorsFilter.CurrentSortOrder">All</a>
+                        <a class="dropdown-item" asp-route-SortOrder="@AuthorFilteringService.CurrentSortOrder">All</a>
 
                         @foreach (var genre in Enum.GetValues(typeof(Genre)))
                         {
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-route-sortOrder="@AuthorsFilter.CurrentSortOrder"  asp-route-genre="@genre">@genre</a>
+                            <a class="dropdown-item" asp-route-SortOrder="@AuthorFilteringService.CurrentSortOrder" asp-route-Genre="@genre">@genre</a>
 
                         }
 
@@ -56,7 +57,7 @@
 
                 <div class="form-actions d-inline-block bg-transparent ml-5 ml-1">
                     <div class="p-2 bg-transparent">
-                        <a asp-action="GetAuthors" asp-route-genre="@AuthorsFilter.CurrentGenre"  asp-route-sortOrder="@AuthorsFilter.CurrentSortOrder" class="text-dark bg-transparent mr-0">
+                        <a asp-action="GetAuthors" asp-route-Genre="@Model.FilterArgs.Genre"  asp-route-sortOrder="@AuthorFilteringService.CurrentSortOrder" class="text-dark bg-transparent mr-0">
                             <img src="https://img.icons8.com/ultraviolet/40/000000/user-typing-using-typewriter.png" style="width:30px;height:30px" />
                             Order by L.N.
                         </a>
@@ -141,7 +142,7 @@
             </div>
         </div>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Authors)
         {
             <div class="col-md-3  ">
                 <div class="card mb-4 shadow-sm" style="width:250px">
@@ -185,8 +186,8 @@
     </div>
 </div>
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.Authors.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Authors.HasNextPage ? "disabled" : "";
 }
 
 
@@ -194,9 +195,9 @@
 <div class="d-flex justify-content-center bg-transparent mb-3">
     <div class="p-3 bg-transparent">
         <a asp-action="GetAuthors"
-           asp-route-genre ="@AuthorsFilter.CurrentGenre"
-           asp-route-catalogPage="@(Model.PageIndex - 1)"
-           asp-route-sortOrder="@AuthorsFilter.CurrentSortOrder"
+           asp-route-Genre ="@Model.FilterArgs.Genre"
+           asp-route-catalogPage="@(Model.Authors.PageIndex - 1)"
+           asp-route-SortOrder="@AuthorFilteringService.CurrentSortOrder"
            class="btn btn-lg btn-outline-dark @prevDisabled">
             Previous
         </a>
@@ -205,9 +206,9 @@
 
     <div class="p-3 bg-transparent">
         <a asp-action="GetAuthors"
-           asp-route-genre ="@AuthorsFilter.CurrentGenre"
-           asp-route-catalogPage="@(Model.PageIndex + 1)"
-           asp-route-sortOrder="@AuthorsFilter.CurrentSortOrder"
+           asp-route-Genre ="@Model.FilterArgs.Genre"
+           asp-route-catalogPage="@(Model.Authors.PageIndex + 1)"
+           asp-route-SortOrder="@AuthorFilteringService.CurrentSortOrder"
            class="btn btn-lg btn-outline-dark @nextDisabled">
             Next page
         </a>

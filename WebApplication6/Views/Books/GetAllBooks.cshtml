@@ -22,7 +22,7 @@ function AddItem(id) {
     <form asp-action="GetAllBooks" method="get" class="form-inline float-right mr-3 mt-md-0">
 
         <div class="form-actions no-color mt-5">
-            <input type="text" name="searchString" class="form-control mr-sm-1 border-dark" placeholder="Search"/>
+            <input type="text" name="SearchString" class="form-control mr-sm-1 border-dark" placeholder="Search"/>
             <button class="btn btn-outline-info  my-2 my-sm-0 " type="submit">Search</button>
         </div>
 
@@ -52,13 +52,13 @@ function AddItem(id) {
                 </button>
 
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" asp-route-author="@BooksFilter.CurrentAuthor" asp-route-bookCondition="@BooksFilter.CurrentBookCondition">All</a>
+                    <a class="dropdown-item" asp-route-Author="@Model.FilterArgs.Author" asp-route-BookCondition="@Model.FilterArgs.BookCondition">All</a>
                     
                     @foreach (var genre in Enum.GetValues(typeof(Genre)))
                     {
 
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-route-author="@BooksFilter.CurrentAuthor" asp-route-bookCondition="@BooksFilter.CurrentBookCondition"  asp-route-genre="@genre">@genre</a>
+                        <a class="dropdown-item" asp-route-Author="@Model.FilterArgs.Author" asp-route-BookCondition="@Model.FilterArgs.BookCondition"  asp-route-Genre="@genre">@genre</a>
 
                     }
 
@@ -75,13 +75,13 @@ function AddItem(id) {
 
                 <div class="dropdown-menu">
 
-                    <a class="dropdown-item" asp-route-genre="@BooksFilter.CurrentGenre" asp-route-bookCondition="@BooksFilter.CurrentBookCondition">All</a>
+                    <a class="dropdown-item" asp-route-Genre="@Model.FilterArgs.Genre" asp-route-BookCondition="@Model.FilterArgs.BookCondition">All</a>
 
                     @foreach (var author in Model.Authors)
                     {
 
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-route-genre="@BooksFilter.CurrentGenre" asp-route-bookCondition="@BooksFilter.CurrentBookCondition"  asp-route-author="@author.LastName">@author.FirstName @author.LastName</a>                       
+                        <a class="dropdown-item" asp-route-Genre="@Model.FilterArgs.Genre" asp-route-BookCondition="@Model.FilterArgs.BookCondition"  asp-route-Author="@author.LastName">@author.FirstName @author.LastName</a>                       
                     }
 
                 </div>
@@ -97,11 +97,11 @@ function AddItem(id) {
 
                 <div class="dropdown-menu">
 
-                    <a class="dropdown-item" asp-route-author="@BooksFilter.CurrentAuthor" asp-route-genre="@BooksFilter.CurrentGenre">All</a>
+                    <a class="dropdown-item" asp-route-Author="@Model.FilterArgs.Author" asp-route-Genre="@Model.FilterArgs.Genre">All</a>
                     @foreach (var condition in Enum.GetValues(typeof(BookCondition)))
                     {
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-route-author="@BooksFilter.CurrentAuthor" asp-route-genre="@BooksFilter.CurrentGenre" asp-route-bookCondition="@condition">@condition</a>
+                        <a class="dropdown-item" asp-route-Author="@Model.FilterArgs.Author" asp-route-Genre="@Model.FilterArgs.Genre" asp-route-BookCondition="@condition">@condition</a>
                     }
 
                 </div>
@@ -265,9 +265,10 @@ function AddItem(id) {
 <div class="d-flex justify-content-center bg-transparent mb-3">
     <div class="p-3 bg-transparent">
         <a asp-action="GetAllBooks"
-           asp-route-genre="@BooksFilter.CurrentGenre"
-           asp-route-author="@BooksFilter.CurrentAuthor"
-           asp-route-bookCondition="@BooksFilter.CurrentBookCondition"
+           asp-route-Genre="@Model.FilterArgs.Genre"
+           asp-route-Author="@Model.FilterArgs.Author"
+           asp-route-BookCondition="@Model.FilterArgs.BookCondition"
+           asp-route-SearchString="@Model.FilterArgs.SearchString"
            asp-route-catalogPage="@(Model.Books.PageIndex - 1)"      
            class="btn btn-lg btn-outline-dark @prevDisabled">
             Previous
@@ -277,9 +278,10 @@ function AddItem(id) {
 
     <div class="p-3 bg-transparent">
         <a asp-action="GetAllBooks"
-           asp-route-genre="@BooksFilter.CurrentGenre"
-           asp-route-author="@BooksFilter.CurrentAuthor"
-           asp-route-bookCondition="@BooksFilter.CurrentBookCondition"
+           asp-route-Genre="@Model.FilterArgs.Genre"
+           asp-route-Author="@Model.FilterArgs.Author"
+           asp-route-BookCondition="@Model.FilterArgs.BookCondition"
+           asp-route-SearchString="@Model.FilterArgs.SearchString"
            asp-route-catalogPage="@(Model.Books.PageIndex + 1)"
            class="btn btn-lg btn-outline-dark @nextDisabled">
             Next page

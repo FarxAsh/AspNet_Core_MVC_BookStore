@@ -3,17 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication6.Data;
 using WebApplication6.Models;
 
-namespace WebApplication6.Data
+namespace WebApplication6.Services
 {
-    public class AuthorsFilter
+    public class AuthorFilteringService
     {
-        public static string CurrentSortOrder { get; set; }
-        public static Genre? CurrentGenre { get; set; }
-        public static async Task<PaginationList<Author>> GetFilteredAuthors(IQueryable<Author> authors, AuthorsFilterArgs filterArgs, int? catalogPage)
+        public static string CurrentSortOrder { get; private set; }
+        public async Task<PaginationList<Author>> GetFilteredAuthors(BookStoreContext context, AuthorFilterArgs filterArgs, int? catalogPage)
         {
-           
+
+            var authors = context.Author.Include(author => author.Book).Select(author => author);
+
             CurrentSortOrder = !string.IsNullOrEmpty(filterArgs.SortOrder)? "desc" : "asc";
 
             authors = GetFilteredAuthorsByGenre(authors, filterArgs.Genre);               
@@ -22,46 +24,42 @@ namespace WebApplication6.Data
 
             authors = SelectSortOrder(authors, filterArgs.SortOrder);
 
-            SetCurrentAuthorFilters(filterArgs);
+         
            
             return await PaginationList<Author>.CreateAsync(authors.AsNoTracking(), catalogPage ?? 1, pageSize: 3);
         }            
-        public static IQueryable<Author> SelectSortOrder(IQueryable<Author> authors, string sortOrder)
+        public  IQueryable<Author> SelectSortOrder(IQueryable<Author> authors, string sortOrder)
         {
                 switch (sortOrder)
                 {
                     case "desc":
-                        authors = authors.OrderByDescending(a => a.LastName);
+                        authors = authors.OrderByDescending(author => author.LastName);
                         CurrentSortOrder = string.Empty;
                         break;
 
                     case "asc":
-                        authors = authors.OrderBy(a => a.LastName);
+                        authors = authors.OrderBy(author => author.LastName);
                         break;
                 }
             return authors;
         }
-        public static IQueryable<Author> GetFilteredAuthorsByGenre(IQueryable<Author> authors, Genre? genre)
+        public  IQueryable<Author> GetFilteredAuthorsByGenre(IQueryable<Author> authors, Genre? genre)
         {
             if (genre.HasValue)
-                authors = authors.Where(b => b.Genre == genre);
+                authors = authors.Where(author => author.Genre == genre);
 
             return authors;
         }   
-        public static IQueryable<Author> GetFilteredAuthorsBySearchString(IQueryable<Author> authors, string searchString, ref int? catalogPage)
+        public  IQueryable<Author> GetFilteredAuthorsBySearchString(IQueryable<Author> authors, string searchString, ref int? catalogPage)
         {
             if (searchString != null)
             {
                 catalogPage = 1;
-                CurrentGenre = null;
-                authors = authors.Where(s => s.LastName.Contains(searchString));
+                authors = authors.Where(author => author.LastName.Contains(searchString));
             }
 
             return authors;
         }   
-        public static void SetCurrentAuthorFilters(AuthorsFilterArgs filterArgs)
-        {
-            CurrentGenre = filterArgs.Genre;           
-        }
+        
     }
 }

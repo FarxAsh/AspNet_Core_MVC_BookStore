@@ -14,6 +14,7 @@ using WebApplication6.Controllers;
 using WebApplication6.Data.ViewModels;
 using WebApplication6.Data.Models;
 using WebApplication6.Data;
+using WebApplication6.Services;
 
 namespace WebApplication6.Controllers
 {
@@ -23,23 +24,18 @@ namespace WebApplication6.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly BookStoreContext _context;
         private readonly ShopBasket _basket;
-        public BooksController(ILogger<HomeController> logger, BookStoreContext context, ShopBasket basket) =>
-            (_logger, _context, _basket) = (logger, context, basket);
+        private readonly BookFilteringService _bookFilteringService;
+        public BooksController(ILogger<HomeController> logger, BookStoreContext context, ShopBasket basket, BookFilteringService bookFilteringService ) =>
+            (_logger, _context, _basket, _bookFilteringService) = (logger, context, basket, bookFilteringService);
                           
-        public async Task<IActionResult> GetAllBooks(string searchString, string author, 
-                                                     Genre? genre, BookCondition? bookCondition, 
-                                                     int? catalogPage)
+        public async Task<IActionResult> GetAllBooks(BookFilterArgs filterArgs, int? catalogPage)
         {
-            var books = from b in _context.Book.Include(b => b.Author)
-                        select b;
-
-            var filterArgs = new BooksFilterArgs(searchString, author, genre, bookCondition);
-                    
-            var filteredBooks = await BooksFilter.GetFilteredBooks(books, filterArgs, catalogPage);
+                     
+            var books = await _bookFilteringService.GetFilteredBooks(_context, filterArgs, catalogPage);
 
             var authors = await _context.Author.AsNoTracking().ToListAsync();
 
-            return View(new GetAllBooksViewModel() {Books = filteredBooks, Authors = authors});
+            return View(new GetAllBooksViewModel() {Books = books, Authors = authors, FilterArgs = filterArgs });
         }
 
         [HttpGet]   

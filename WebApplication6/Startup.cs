@@ -36,6 +36,8 @@ namespace WebApplication6
             })
                 .AddEntityFrameworkStores<BookStoreContext>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<BookFilteringService>();
+            services.AddSingleton<AuthorFilteringService>();
             services.AddScoped(sp => ShopBasket.GetBasket(sp));
             services.AddControllersWithViews();
             services.AddMemoryCache();

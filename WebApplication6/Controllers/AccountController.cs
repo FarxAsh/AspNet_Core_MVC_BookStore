@@ -26,8 +26,6 @@ namespace WebApplication6.Controllers
             _context = context;
           
         }
-       
-
 
         [Authorize(Roles = "user")]
         public async Task<IActionResult> GetUsersOrders()
