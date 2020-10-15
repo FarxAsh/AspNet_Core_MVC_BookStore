@@ -35,23 +35,26 @@ namespace WebApplication6.Controllers
 
             return View(new GetAuthorsViewModel() {Authors = authors, FilterArgs = filterArgs });
         }
+        [HttpGet]
+        public async Task<IActionResult> GetFilterAuthors(AuthorFilterArgs filterArgs, int? catalogPage)
+        {
+            var authors = await _authorFilteringService.GetFilteredAuthors(_context, filterArgs, catalogPage);
+
+            return Json(new GetAuthorsViewModel() { Authors = authors, FilterArgs = filterArgs });
+        }
 
         [Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult Add()
-        {
-            
-            return View();
-            
+        {           
+            return View();            
         }
-
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Author newAuthor)
-        {
-          
+        {         
             try
             {
                 if (ModelState.IsValid)
@@ -89,13 +92,11 @@ namespace WebApplication6.Controllers
             return View(author);
         }
        
-
         [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Image,ShortBiography,Biography,Genre")] Author author)
         {    
-
             if (id != author.ID)
             {
                 return NotFound();
@@ -145,13 +146,13 @@ namespace WebApplication6.Controllers
             return View(authors);
         }
 
-
         [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Author.Include(a => a.Book).FirstOrDefaultAsync(a => a.ID == id);
+            var author = await _context.Author.Include(a => a.Book)
+                                              .FirstOrDefaultAsync(a => a.ID == id);
             if (author == null)
             {
                 return RedirectToAction(nameof(GetAuthors));
@@ -159,7 +160,6 @@ namespace WebApplication6.Controllers
 
             try
             {
-
                 foreach(var book in author.Book)
                 {
                     if(book != null)
@@ -170,9 +170,7 @@ namespace WebApplication6.Controllers
                             _context.BasketItem.RemoveRange(items);
                             await _context.SaveChangesAsync();
                         }
-                    }
-                  
-                
+                    }                               
                 }      
                 _context.Author.Remove(author);
                 await _context.SaveChangesAsync();
@@ -183,13 +181,8 @@ namespace WebApplication6.Controllers
                 _logger.LogError(ex, "An error occured updating DB");
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
-        }
-
-       
+        }       
     }
-
-
-
 }
 
 

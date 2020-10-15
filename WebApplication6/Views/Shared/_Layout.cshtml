@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,36 +7,26 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
 </head>
 <body>
     <header>
         <!--Navbar-->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
             <a asp-action="Index" asp-controller="Home" class="navbar-brand  mr-2">
-                <svg class="bi bi-bootstrap" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M12 1H4a3 3 0 00-3 3v8a3 3 0 003 3h8a3 3 0 003-3V4a3 3 0 00-3-3zM4 0a4 4 0 00-4 4v8a4 4 0 004 4h8a4 4 0 004-4V4a4 4 0 00-4-4H4z" clip-rule="evenodd" />
-                    <path fill-rule="evenodd" d="M8.537 12H5.062V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396zM6.375 4.658v2.467h1.558c1.16 0 1.764-.428 1.764-1.23 0-.78-.569-1.237-1.541-1.237H6.375zm1.898 6.229H6.375V8.162h1.822c1.236 0 1.887.463 1.887 1.348 0 .896-.627 1.377-1.811 1.377z" clip-rule="evenodd" />
-                </svg>ook Store
+                <img src="~/Images/Logo.svg" />ook Store
             </a>
-
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
-
                 <ul class="navbar-nav mr-auto">
-
                     <li class="nav-item ">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home <span class="sr-only">(current)</span></a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="AboutUs">About us</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" asp-action="ContactUs" asp-controller="Home">Contact us</a>
                     </li>
@@ -48,19 +37,13 @@
                     <!--My room-->
                     <div class="dropdown">
                         <button type="button" class="bg-transparent border-0 dropdown-toggle" data-toggle="dropdown">
-                            <svg class="bi bi-people" width="2.3em" height="2.3em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.995-.944v-.002.002zM7.022 13h7.956a.274.274 0 00.014-.002l.008-.002c-.002-.264-.167-1.03-.76-1.72C13.688 10.629 12.718 10 11 10c-1.717 0-2.687.63-3.24 1.276-.593.69-.759 1.457-.76 1.72a1.05 1.05 0 00.022.004zm7.973.056v-.002.002zM11 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zM6.936 9.28a5.88 5.88 0 00-1.23-.247A7.35 7.35 0 005 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 015 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10c-1.668.02-2.615.64-3.16 1.276C1.163 11.97 1 12.739 1 13h3c0-1.045.323-2.086.92-3zM1.5 5.5a3 3 0 116 0 3 3 0 01-6 0zm3-2a2 2 0 100 4 2 2 0 000-4z" clip-rule="evenodd" />
-                            </svg>
+                            <img src="~/Images/UsersRoom.svg" />
                             <p class="d-inline text-white-50">My room</p>
                         </button>
                         <div class="dropdown-menu bg-dark">
                             <form method="post" asp-controller="Account" asp-action="Logout" class="form-inline mt-2 mt-md-0">
                                 <button class="dropdown-item text-light bg-transparent ml-0" type="submit">
-                                    <svg class="bi bi-box-arrow-in-left " width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M7.854 11.354a.5.5 0 000-.708L5.207 8l2.647-2.646a.5.5 0 10-.708-.708l-3 3a.5.5 0 000 .708l3 3a.5.5 0 00.708 0z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M15 8a.5.5 0 00-.5-.5h-9a.5.5 0 000 1h9A.5.5 0 0015 8z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M2.5 14.5A1.5 1.5 0 011 13V3a1.5 1.5 0 011.5-1.5h8A1.5 1.5 0 0112 3v1.5a.5.5 0 01-1 0V3a.5.5 0 00-.5-.5h-8A.5.5 0 002 3v10a.5.5 0 00.5.5h8a.5.5 0 00.5-.5v-1.5a.5.5 0 011 0V13a1.5 1.5 0 01-1.5 1.5h-8z" clip-rule="evenodd" />
-                                    </svg>
+                                    <img src="~/Images/Logout.svg" />
                                     Logout
                                 </button>
                             </form>
@@ -69,91 +52,64 @@
                                 <div class="dropdown-divider"></div>
                                 <form method="post" asp-controller="Roles" asp-action="UserList" class="form-inline mt-2 mt-md-0">
                                     <button class="dropdown-item text-light bg-transparent ml-0" type="submit">
-                                        <svg class="bi bi-person" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 00.014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 00.022.004zm9.974.056v-.002.002zM8 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
-                                        </svg>
+                                        <img src="~/Images/UserList.svg" />
                                         Users
                                     </button>
                                 </form>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-light bg-transparent" asp-action="GetAllUsersOrders" asp-controller="Roles">
-                                    <svg class="bi bi-archive" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M2 5v7.5c0 .864.642 1.5 1.357 1.5h9.286c.715 0 1.357-.636 1.357-1.5V5h1v7.5c0 1.345-1.021 2.5-2.357 2.5H3.357C2.021 15 1 13.845 1 12.5V5h1z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M5.5 7.5A.5.5 0 016 7h4a.5.5 0 010 1H6a.5.5 0 01-.5-.5zM15 2H1v2h14V2zM1 1a1 1 0 00-1 1v2a1 1 0 001 1h14a1 1 0 001-1V2a1 1 0 00-1-1H1z" clip-rule="evenodd" />
-                                    </svg>
+                                    <img src="~/Images/OrderList.svg" />
                                     Orders
                                 </a>
-
                             }
+                            
                             @if (User.IsInRole("user"))
                             {
-
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-light bg-transparent" asp-action="GetUsersOrders" asp-controller="Account">
-                                    <svg class="bi bi-folder" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.828 4a3 3 0 01-2.12-.879l-.83-.828A1 1 0 006.173 2H2.5a1 1 0 00-1 .981L1.546 4h-1L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3v1z" />
-                                        <path fill-rule="evenodd" d="M13.81 4H2.19a1 1 0 00-.996 1.09l.637 7a1 1 0 00.995.91h10.348a1 1 0 00.995-.91l.637-7A1 1 0 0013.81 4zM2.19 3A2 2 0 00.198 5.181l.637 7A2 2 0 002.826 14h10.348a2 2 0 001.991-1.819l.637-7A2 2 0 0013.81 3H2.19z" clip-rule="evenodd" />
-                                    </svg>
+                                    <img src="~/Images/UsersOrderHistory.svg" />
                                     History
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <form method="get" asp-controller="Basket" asp-action="GetBasketView" class=" mt-2 mt-md-0">
-
                                     <button type="submit" class=" bg-transparent dropdown-item text-light">
-                                        <svg class="bi bi-bag" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M14 5H2v9a1 1 0 001 1h10a1 1 0 001-1V5zM1 4v10a2 2 0 002 2h10a2 2 0 002-2V4H1z" clip-rule="evenodd" />
-                                            <path d="M8 1.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z" />
-                                        </svg>
+                                        <img src="~/Images/UsersCart.svg" />
                                         Basket
                                     </button>
                                 </form>
                             }
-
-                        </div>
+                          </div>
                     </div>
-
                 }
 
                 else
                 {
-
                     <div class="dropdown">
                         <button type="button" class="bg-transparent border-0 dropdown-toggle" data-toggle="dropdown">
-                            <svg class="bi bi-people" width="2.3em" height="2.3em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.995-.944v-.002.002zM7.022 13h7.956a.274.274 0 00.014-.002l.008-.002c-.002-.264-.167-1.03-.76-1.72C13.688 10.629 12.718 10 11 10c-1.717 0-2.687.63-3.24 1.276-.593.69-.759 1.457-.76 1.72a1.05 1.05 0 00.022.004zm7.973.056v-.002.002zM11 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zM6.936 9.28a5.88 5.88 0 00-1.23-.247A7.35 7.35 0 005 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 015 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10c-1.668.02-2.615.64-3.16 1.276C1.163 11.97 1 12.739 1 13h3c0-1.045.323-2.086.92-3zM1.5 5.5a3 3 0 116 0 3 3 0 01-6 0zm3-2a2 2 0 100 4 2 2 0 000-4z" clip-rule="evenodd" />
-                            </svg>
+                            <img src="~/Images/Account.svg" />
                             <p class="d-inline text-white-50">Account</p>
                         </button>
                         <div class="dropdown-menu bg-dark">
                             <a class="dropdown-item bg-transparent text-light" asp-controller="Account" asp-action="Login">
                                 <div class="navbar-tool-icon-box">
-                                    <svg class="bi bi-person-check" width="1.3em" height="1.3m" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 00.014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 00.022.004zm9.974.056v-.002.002zM6 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zm6.854.146a.5.5 0 010 .708l-3 3a.5.5 0 01-.708 0l-1.5-1.5a.5.5 0 01.708-.708L12.5 7.793l2.646-2.647a.5.5 0 01.708 0z" clip-rule="evenodd" />
-                                    </svg>
+                                    <img src="~/Images/Sign in.svg" />
                                     Sign in
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item bg-transparent text-light" asp-controller="Account" asp-action="Register">
                                 <div class="navbar-tool-icon-box">
-                                    <svg class="bi bi-person-plus" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 00.014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 00.022.004zm9.974.056v-.002.002zM6 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zm4.5 0a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd" />
-                                        <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd" />
-                                    </svg>
+                                    <img src="~/Images/Sign up.svg" />
                                     Sign up
                                 </div>
                             </a>
-
                         </div>
                     </div>
 
                 }
-
             </div>
         </nav>
     </header>
-
-
 
     <div class="masonry-block half-width half-height no-right-margin">
         <div class="block-image" style="background-image:url(/themes/kpfu/sharing/images/block-career.jpg)"></div>
@@ -162,12 +118,8 @@
         </a>
     </div>
 
-
-
     <main role="main" class="pb-3">
-
         @RenderBody()
-
     </main>
 
     <footer class="border-top footer text-muted">
@@ -175,9 +127,12 @@
             &copy; 2020 - WebApplication6 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-ajax/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

@@ -8,9 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
-{
-  
-  
+{   
     public class BasketController : Controller
     {
         private readonly BookStoreContext _context;
@@ -29,8 +27,6 @@ namespace WebApplication6.Controllers
             var items = await _basket.GetBasketItemsAsync();
             _basket.defferedBooks = items;
             ViewData["TotalSum"] = await _basket.GetTotalSumAsync();
-            
-
             return View(_basket);
         }
 
@@ -39,21 +35,14 @@ namespace WebApplication6.Controllers
         {
             await _basket.AddBasketItemAsync( _context.Book.FirstOrDefault(b => b.ID == id));
 
-            return new EmptyResult();
-           
+            return new EmptyResult();          
         }
 
-
-        [Authorize(Roles = "user")]
-        public async Task<IActionResult> RemoveBasketItemAsync(int id)
+       [Authorize(Roles = "user")]
+        public async Task<EmptyResult> RemoveBasketItem(int id)
         {
-            await _basket.RemoveBasketItemAsync(id);
-            
-          
-            return RedirectToAction(nameof(GetBasketView));
-            
-           
-
+            await _basket.RemoveBasketItemAsync(id);                    
+            return new EmptyResult();                    
         }
     }
 }

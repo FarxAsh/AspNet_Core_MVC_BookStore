@@ -9,7 +9,6 @@ using WebApplication6.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
-
 namespace WebApplication6.Controllers
 {
     public class AccountController : Controller
@@ -17,22 +16,22 @@ namespace WebApplication6.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly BookStoreContext _context;
-       
-
+      
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, BookStoreContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
-          
+            _context = context;        
         }
 
         [Authorize(Roles = "user")]
         public async Task<IActionResult> GetUsersOrders()
         {
 
-            var orders = await _context.Order.Include(o => o.OrderDetailes).Where(o => o.Byer == User.Identity.Name).AsNoTracking().ToListAsync();
-
+            var orders = await _context.Order.Include(o => o.OrderDetailes)
+                                             .Where(o => o.Byer == User.Identity.Name)
+                                             .AsNoTracking()
+                                             .ToListAsync();
             return View(orders);
         }
 
@@ -40,9 +39,11 @@ namespace WebApplication6.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var orderDetails = await _context.OrderDetailes.Where(od => od.OrderID == id).Include(od => od.Book).ThenInclude(b => b.Author).AsNoTracking().ToListAsync();
-           
-
+            var orderDetails = await _context.OrderDetailes.Where(od => od.OrderID == id)
+                                                           .Include(od => od.Book)
+                                                           .ThenInclude(b => b.Author)
+                                                           .AsNoTracking()
+                                                           .ToListAsync();
             return View(orderDetails);
         }
 
@@ -62,7 +63,6 @@ namespace WebApplication6.Controllers
              
                 if (result.Succeeded)
                 {
-
                     await _userManager.AddToRoleAsync(user, "user");
                     await _signInManager.SignInAsync(user, false);
                      return RedirectToAction("Index", "Home");
@@ -78,7 +78,6 @@ namespace WebApplication6.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -89,8 +88,6 @@ namespace WebApplication6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-
-
             if (ModelState.IsValid)
             {
                 var result =

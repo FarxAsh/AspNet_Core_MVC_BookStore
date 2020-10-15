@@ -49,13 +49,14 @@ namespace WebApplication6.Models
             {
                 _context.BasketItem.Remove(item);
                await _context.SaveChangesAsync();
-            }
-            
+            }            
         }
-
         public async Task<ICollection<BasketItem>> GetBasketItemsAsync()
         {
-            return (await _context.BasketItem.Where(bi => bi.myBasket == basketID).Include(b => b.Book).ThenInclude(a => a.Author).ToListAsync());
+            return (await _context.BasketItem.Where(bi => bi.myBasket == basketID)
+                                             .Include(b => b.Book)
+                                             .ThenInclude(a => a.Author)
+                                             .ToListAsync());
         }
 
         public async Task RemoveAllBasketItems()
@@ -72,7 +73,10 @@ namespace WebApplication6.Models
 
         public async Task<int> GetTotalSumAsync()
         {
-            var items = await _context.BasketItem.Where(b => b.myBasket == basketID).Include(b => b.Book).AsNoTracking().ToListAsync();
+            var items = await _context.BasketItem.Where(b => b.myBasket == basketID)
+                                                 .Include(b => b.Book)
+                                                 .AsNoTracking()
+                                                 .ToListAsync();
 
             foreach (var item in  items)
             {

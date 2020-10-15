@@ -28,21 +28,27 @@ namespace WebApplication6.Controllers
         public BooksController(ILogger<HomeController> logger, BookStoreContext context, ShopBasket basket, BookFilteringService bookFilteringService ) =>
             (_logger, _context, _basket, _bookFilteringService) = (logger, context, basket, bookFilteringService);
                           
-        public async Task<IActionResult> GetAllBooks(BookFilterArgs filterArgs, int? catalogPage)
+        public async Task<IActionResult> GetAllBooks()
         {
-                     
-            var books = await _bookFilteringService.GetFilteredBooks(_context, filterArgs, catalogPage);
+                    
+            var books = await PaginationList<Book>.CreateAsync(_context.Book.Include(book => book.Author), pageIndex:1, pageSize: 3);
 
             var authors = await _context.Author.AsNoTracking().ToListAsync();
 
-            return View(new GetAllBooksViewModel() {Books = books, Authors = authors, FilterArgs = filterArgs });
+            return View(new GetAllBooksViewModel() {Books = books, Authors = authors });
+        }
+
+        public async Task<IActionResult> GetAllBooksAjax(BookFilterArgs filterArgs, int? catalogPage)
+        {
+            
+            var books = await _bookFilteringService.GetFilteredBooks(_context, filterArgs, catalogPage);
+            return Json(books);
         }
 
         [HttpGet]   
         [Authorize(Roles = "admin,user")]
         public async Task<IActionResult> Create()
-        {
-       
+        {      
             var authors = await _context.Author.AsNoTracking().ToListAsync();
             CreateBookViewModel vm = new CreateBookViewModel() { Author = authors };            
             return View(vm);
@@ -52,8 +58,7 @@ namespace WebApplication6.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Year,Pages,Image,Description,Genre,Price,AuthorID")] Book book)
-        {
-             
+        {             
             var authors = await _context.Author.AsNoTracking().ToListAsync();
             try
             {
@@ -105,16 +110,13 @@ namespace WebApplication6.Controllers
             return View(vm);
         }
 
-
         [Authorize(Roles = "admin")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Year,Pages,Image,Description,Genre,Price,AuthorID")] Book book)
         {
             var authors = await _context.Author.AsNoTracking().ToListAsync();
-            if (id != book.ID)
-            {
-                return NotFound();
-            }
+           
             if (ModelState.IsValid)
             {
                 try
@@ -144,8 +146,8 @@ namespace WebApplication6.Controllers
             }
 
             var book = await _context.Book.Include(b => b.Author)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.ID == id);
+                                          .AsNoTracking()
+                                          .FirstOrDefaultAsync(b => b.ID == id);
             if (book == null)
             {
                 return NotFound();
@@ -161,7 +163,6 @@ namespace WebApplication6.Controllers
             return View(book);
         }
 
-
         [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -176,7 +177,7 @@ namespace WebApplication6.Controllers
             try
             {
 
-                var items = _context.BasketItem.Where(i => i.Book.ID == id).ToList();
+                var items = await _context.BasketItem.Where(i => i.Book.ID == id).ToListAsync();
                 if(items.Any())
                 {
                     _context.BasketItem.RemoveRange(items);

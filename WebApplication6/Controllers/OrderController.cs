@@ -12,7 +12,6 @@ namespace WebApplication6.Controllers
 {
     public class OrderController : Controller
     {
-
         private readonly IOrderService _orderService;
         private readonly ShopBasket _basket;
         public OrderController(IOrderService orderService, ShopBasket basket)
@@ -20,7 +19,6 @@ namespace WebApplication6.Controllers
             _orderService = orderService;
             _basket = basket;
         }
-
 
         [Authorize(Roles = "user")]
         public IActionResult Buy()

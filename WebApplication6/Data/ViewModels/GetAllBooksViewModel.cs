@@ -11,6 +11,5 @@ namespace WebApplication6.Data.ViewModels
     {
         public List<Author> Authors { get;set; }
         public PaginationList<Book> Books { get; set; }
-        public BookFilterArgs FilterArgs { get; set; }
     }
 }
